@@ -658,7 +658,7 @@ class ProjectManager:
         print(f"🔍 DEBUG: Project data keys: {list(project_data.keys())}")
 
         # Check for both userParameters and environments
-        yaml_user_params = project_data.get("userParameters", [])
+        yaml_user_params = project_data.get("user_parameters", [])
         environments = init_data.get("environments", [])
 
         print(f"🔍 DEBUG: Found userParameters: {yaml_user_params}")
@@ -669,7 +669,7 @@ class ProjectManager:
             # Convert environments to userParameters format
             yaml_user_params = []
             for env in environments:
-                if isinstance(env, dict) and "EnvironmentConfigurationName" in env:
+                if isinstance(env, dict) and "environment_configuration_name" in env:
                     yaml_user_params.append(env)
                 elif isinstance(env, str):
                     yaml_user_params.append(
@@ -694,7 +694,7 @@ class ProjectManager:
 
         user_parameters = []
         for env_config in yaml_user_params:
-            env_name = env_config.get("EnvironmentConfigurationName")
+            env_name = env_config.get("environment_configuration_name")
             params = env_config.get("parameters", [])
             user_param_objects = [
                 UserParameter(name=param.get("name"), value=param.get("value"))
