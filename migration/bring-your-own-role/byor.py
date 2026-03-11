@@ -892,6 +892,15 @@ def byor_main():
         # Copy BYOR Role's Tags to Project Role
         _copy_tags(byor_role['Role']['RoleName'], project_role['Role']['RoleName'], iam_client, args.execute)
         
+        # Copy BYOR Role's MaxSessionDuration to Project Role
+        byor_max_session_duration = byor_role['Role']['MaxSessionDuration']
+        print(f"Copying MaxSessionDuration {byor_max_session_duration}s from BYOR Role to Project Role")
+        if args.execute:
+            iam_client.update_role(
+                RoleName=project_role['Role']['RoleName'],
+                MaxSessionDuration=byor_max_session_duration,
+            )
+
         # Copy LakeFormation Permissions and Opt-Ins
         _copy_lakeformation_grants(lakeformation, args.bring_in_role_arn, project_role['Role']['Arn'], args.execute, args.command)
         _copy_lakeformation_opt_ins(lakeformation, args.bring_in_role_arn, project_role['Role']['Arn'], args.execute)
